@@ -1285,34 +1285,32 @@
         <div>
           <p class="contact-note">
             For bookings, auditions, or just to say hi, use the form.
-            Messages go directly to my inbox (or to my agent if you prefer).
-            Please include project details, dates, and where you are based.
           </p>
           <p class="contact-note" style="margin-top:12px;">
             You can also email me directly at
-            <a href="mailto:batistajean78@gmail.com">chris@gmail.com</a>.
+            <a href="mailto:chrismichaelarts@gmail.com">chrismichaelarts@gmail.com</a>.
           </p>
         </div>
 
-        <form>
+        <form id="contactForm" action="mailto:chrismichaelarts@gmail.com" method="POST" enctype="text/plain">
           <div class="form-grid">
             <div class="field">
               <label for="name">Name</label>
-              <input id="name" type="text" placeholder="Your name" />
+              <input id="name" name="name" type="text" placeholder="Your name" required />
             </div>
             <div class="field">
               <label for="email">Email</label>
-              <input id="email" type="email" placeholder="you@email.com" />
+              <input id="email" name="email" type="email" placeholder="you@email.com" required />
             </div>
             <div class="field">
               <label for="phone">Cell phone</label>
-              <input id="phone" type="tel" placeholder="Optional" />
+              <input id="phone" name="phone" type="tel" placeholder="Optional" />
             </div>
           </div>
 
           <div class="field" style="margin-top:8px;">
             <label for="message">Message</label>
-            <textarea id="message" placeholder="Tell me about the project or leave a note."></textarea>
+            <textarea id="message" name="message" placeholder="Tell me about the project or leave a note." required></textarea>
           </div>
 
           <div class="form-footer">
@@ -1327,6 +1325,26 @@
   </main>
 
   <script>
+    // Contact form handling - opens email client with form data
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const message = document.getElementById('message').value;
+      
+      const subject = encodeURIComponent(`Website Contact from ${name}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Phone: ${phone || 'Not provided'}\n\n` +
+        `Message:\n${message}`
+      );
+      
+      window.location.href = `mailto:chrismichaelarts@gmail.com?subject=${subject}&body=${body}`;
+    });
+
     // Mobile menu
     const hamburger = document.getElementById("hamburger");
     const mobileNav = document.getElementById("mobileNav");
