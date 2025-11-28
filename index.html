@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chris Michael — Actor • Writer • Musician</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #fdfbff;
+      --bg-panel: #ffffff;
+      --soft-red: #ff6b6b;
+      --soft-red-dark: #e62429;
+      --soft-blue: #4a90d9;
+      --soft-blue-dark: #1a4f8b;
+      --text-main: #1a1a2e;
+      --text-muted: #4a5568;
+      --border-subtle: #e2e6f0;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
+      --radius-xl: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #ffe0e0 0, #fdfbff 40%, #d0e4ff 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Layout helpers */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 18px 60px;
+    }
+
+    section {
+      padding: 72px 0;
+      border-bottom: 1px solid rgba(26, 79, 139, 0.15);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--soft-red-dark);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.02em;
+      color: var(--soft-blue-dark);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--soft-blue);
+      color: var(--soft-blue-dark);
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--soft-red-dark);
+    }
+
+    /* HEADER + NAV */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.95),
+        rgba(255, 255, 255, 0.85),
+        transparent
+      );
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 18px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .quote {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    .logo-name {
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--soft-blue-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .nav-links a {
+      padding: 6px 0;
+      position: relative;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--soft-red-dark), var(--soft-blue-dark));
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.18s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-links a:hover {
+      color: var(--soft-blue-dark);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      width: 34px;
+      height: 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--soft-blue-dark);
+      transition: transform 0.22s ease, opacity 0.22s ease, translate 0.22s ease;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .mobile-nav.open {
+      display: flex;
+    }
+
+    .mobile-nav-panel {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 28px;
+      padding: 26px 30px;
+      width: 78%;
+      max-width: 360px;
+      box-shadow: var(--shadow-soft);
+      text-align: left;
+      border: 2px solid var(--soft-blue);
+    }
+
+    .mobile-nav-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--soft-blue-dark);
+      font-weight: 700;
+    }
+
+    .mobile-close {
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: var(--soft-red-dark);
+    }
+
+    .mobile-menu-links {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .mobile-menu-links li {
+      padding: 8px 0;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(26, 79, 139, 0.2);
+    }
+
+    .mobile-menu-links li:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu-links a {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* HERO SECTION */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.15fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero-heading {
+      margin-bottom: 18px;
+    }
+
+    .hero-name {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.1rem, 4vw, 2.9rem);
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+      color: var(--soft-blue-dark);
+    }
+
+    .hero-roles {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--soft-red-dark);
+      font-weight: 600;
+    }
+
+    .hero-text-bubble {
+      background: linear-gradient(145deg, rgba(230, 36, 41, 0.12), rgba(26, 79, 139, 0.15));
+      border-radius: 26px;
+      padding: 18px 20px 18px 22px;
+      border: 2px solid rgba(26, 79, 139, 0.3);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.93rem;
+      line-height: 1.7;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .hero-text-bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 36px;
+      border-width: 12px 10px 0 10px;
+      border-style: solid;
+      border-color: rgba(230, 36, 41, 0.25) transparent transparent transparent;
+      filter: drop-shadow(0 6px 8px rgba(15, 23, 42, 0.1));
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--soft-red-dark);
+    }
+
+    .hero-media-card {
+      background: var(--bg-panel);
+      border-radius: 26px;
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+      border: 2px solid var(--soft-blue);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-photo {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--soft-red);
+      background: linear-gradient(135deg, #ffe0e0, #d0e4ff);
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      gap: 8px;
+    }
+
+    .hero-socials {
+      display: flex;
+      gap: 12px;
+    }
+
+    .pill-link {
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 2px solid var(--soft-blue);
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.2s ease;
+      font-weight: 500;
+      color: var(--soft-blue-dark);
+    }
+
+    .pill-link:hover {
+      background: var(--soft-blue-dark);
+      border-color: var(--soft-blue-dark);
+      color: #fff;
+    }
+
+    /* ACTING SECTION */
+
+    .acting-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .video-card {
+      background: var(--bg-panel);
+      border-radius: var(--radius-xl);
+      padding: 16px 16px 18px;
+      box-shadow: var(--shadow-soft);
+      border: 2px solid var(--soft-blue);
+    }
+
+    .video-card header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .video-card header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--soft-blue-dark);
+    }
+
+    .video-tagline {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      margin-bottom: 10px;
+      aspect-ratio: 16 / 9;
+      border: 2px solid var(--soft-red);
+    }
+
+    .video-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-thumbs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .video-thumb {
+      flex: 1 1 120px;
+      min-width: 0;
+      border-radius: 14px;
+      border: 2px solid var(--soft-blue);
+      padding: 8px 9px;
+      font-size: 0.78rem;
+      background: linear-gradient(135deg, rgba(230, 36, 41, 0.1), rgba(26, 79, 139, 0.1));
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: all 0.2s ease;
+    }
+
+    .video-thumb span {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--soft-blue-dark);
+    }
+
+    .video-thumb small {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .video-thumb.active {
+      border-color: var(--soft-red-dark);
+      background: linear-gradient(135deg, rgba(230, 36, 41, 0.2), rgba(26, 79, 139, 0.15));
+      box-shadow: 0 0 0 2px rgba(230, 36, 41, 0.3);
+    }
+
+    .video-thumb:hover {
+      border-color: var(--soft-red-dark);
+      transform: translateY(-2px);
+    }
+
+    .acting-notes {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .acting-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+
+    .acting-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s ease;
+      font-weight: 500;
+    }
+
+    .acting-links a:hover {
+      color: var(--soft-red-dark);
+    }
+
+    .acting-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--soft-red-dark);
+    }
+
+    /* WRITING SECTION */
+
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .writing-card {
+      background: var(--bg-panel);
+      border-radius: var(--radius-xl);
+      padding: 16px 18px 18px;
+      border: 2px solid var(--soft-blue);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.9rem;
+    }
+
+    .writing-card h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--soft-blue-dark);
+    }
+
+    .writing-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .writing-meta {
+      font-size: 0.78rem;
+      color: var(--soft-red-dark);
+      font-weight: 500;
+    }
+
+    /* GALLERY SECTION */
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery-item {
+      background: var(--bg-panel);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--soft-blue);
+      box-shadow: var(--shadow-soft);
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      border-color: var(--soft-red-dark);
+      transform: translateY(-4px);
+      box-shadow: 0 24px 50px rgba(230, 36, 41, 0.2);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 200px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.03);
+    }
+
+    .gallery-video {
+      grid-column: span 2;
+      aspect-ratio: 16 / 9;
+      min-height: auto;
+      cursor: default;
+    }
+
+    .gallery-video:hover {
+      transform: none;
+    }
+
+    .gallery-video:hover img {
+      transform: none;
+    }
+
+    .gallery-video iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 16px;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 3px solid var(--soft-red-dark);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--soft-red-dark);
+      color: #fff;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: var(--soft-blue-dark);
+      transform: scale(1.1);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--soft-blue-dark);
+      color: #fff;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-nav:hover {
+      background: var(--soft-red-dark);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .lightbox-prev {
+      left: -70px;
+    }
+
+    .lightbox-next {
+      right: -70px;
+    }
+
+    @media (max-width: 800px) {
+      .lightbox-prev {
+        left: 10px;
+      }
+      .lightbox-next {
+        right: 10px;
+      }
+    }
+
+    /* HEADSHOT / RESUME */
+
+    .resume-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .headshot {
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffe0e0, #d0e4ff);
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      border: 3px solid var(--soft-red-dark);
+      font-size: 0.9rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .headshot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .resume-panel {
+      background: var(--bg-panel);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 20px;
+      border: 2px solid var(--soft-blue);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.9rem;
+    }
+
+    .resume-panel strong {
+      color: var(--soft-blue-dark);
+    }
+
+    .resume-panel ul {
+      margin-left: 16px;
+      margin-top: 8px;
+      color: var(--text-muted);
+    }
+
+    .resume-panel li {
+      margin-bottom: 4px;
+    }
+
+    .resume-panel li strong {
+      color: var(--text-main);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--soft-red-dark), var(--soft-blue-dark));
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 12px;
+      box-shadow: 0 12px 30px rgba(230, 36, 41, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(230, 36, 41, 0.45);
+    }
+
+    /* LINKS */
+
+    .links-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .links-list li {
+      background: var(--bg-panel);
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 2px solid var(--soft-blue);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .links-list li:hover {
+      border-color: var(--soft-red-dark);
+      transform: translateX(4px);
+    }
+
+    .links-list span {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .links-list a {
+      color: var(--soft-red-dark);
+      font-weight: 600;
+    }
+
+    /* CONTACT */
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .contact-note {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .contact-note a {
+      color: var(--soft-red-dark);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    form {
+      background: var(--bg-panel);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 2px solid var(--soft-blue);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 0.8rem;
+    }
+
+    label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--soft-blue-dark);
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      border-radius: 12px;
+      border: 2px solid rgba(26, 79, 139, 0.4);
+      padding: 9px 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      background: rgba(255, 255, 255, 0.96);
+      transition: all 0.2s ease;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--soft-red-dark);
+      box-shadow: 0 0 0 3px rgba(230, 36, 41, 0.2);
+    }
+
+    .form-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 880px) {
+      .hero,
+      .acting-layout,
+      .resume-layout,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-video {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .header-inner {
+        padding-inline: 16px;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+
+      .quote {
+        display: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        padding-inline: 14px;
+      }
+
+      .hero-media-card,
+      .hero-text-bubble {
+        padding-inline: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile full-screen menu -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-panel">
+      <div class="mobile-nav-top">
+        <span>Chris Michael</span>
+        <span class="mobile-close" id="mobileClose">&times;</span>
+      </div>
+      <ul class="mobile-menu-links">
+        <li><a href="#home" class="mobile-link">Home</a></li>
+        <li><a href="#acting" class="mobile-link">Acting</a></li>
+        <li><a href="#writing" class="mobile-link">Writing</a></li>
+        <li><a href="#gallery" class="mobile-link">Gallery</a></li>
+        <li><a href="#resume" class="mobile-link">Headshot &amp; Résumé</a></li>
+        <li><a href="#links" class="mobile-link">Links</a></li>
+        <li><a href="#contact" class="mobile-link">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Lightbox for gallery images -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
+      <img id="lightboxImg" src="" alt="Gallery image expanded" />
+      <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
+    </div>
+  </div>
+
+  <!-- Top bar -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-name">Chris Michael</div>
+      <p class="quote">
+        "To live in the past is to die in the present." — some guy
+      </p>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#acting">Acting</a>
+        <a href="#writing">Writing</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#resume">Headshot / Résumé</a>
+        <a href="#links">Links</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- HOME -->
+    <section id="home">
+      <div class="hero">
+        <div>
+          <div class="hero-heading">
+            <div class="chip">
+              <span class="chip-dot"></span>
+              Portfolio 2025
+            </div>
+            <h1 class="hero-name">Chris Michael</h1>
+            <p class="hero-roles">
+              Actor &nbsp;•&nbsp; Writer &nbsp;•&nbsp; Musician &nbsp;•&nbsp; Adventurer
+            </p>
+          </div>
+
+          <div class="hero-text-bubble">
+            Welcome! I'm Chris Michael, an NYC based actor. I was born and raised in New York as well. I was formally trained at a 2 year Meisner program.
+            <br><br>
+            Enough about the silly stuff, let's talk seriously. I'm a sensitive person but serious and playful. I'm intense about the things that matter to me. I care deeply about the people in my life. I like to think I have it all together but I'm not perfect. A fun fact about myself is I adore sunsets. It reminds me to see the beauty in everything and keeps me grounded. My favorite color is red :)
+          </div>
+
+          <div class="hero-meta">
+            <span><span class="hero-meta-icon"></span> Based in New York City</span>
+            <span><span class="hero-meta-icon"></span> Available for theatre, film &amp; voiceover</span>
+          </div>
+        </div>
+
+        <aside class="hero-media-card">
+          <div class="hero-photo">
+            <img src="headshots 6.jpg" alt="Chris Michael smiling headshot" />
+          </div>
+          <div class="hero-footer">
+            <div>
+              <div style="font-weight:600;font-size:0.84rem;color:var(--soft-blue-dark);">Let's connect</div>
+              <div style="font-size:0.78rem;color:var(--text-muted);">
+                Emails get answered faster than DMs.
+              </div>
+            </div>
+            <div class="hero-socials">
+              <a href="https://www.instagram.com/chrismikemorale" target="_blank" rel="noreferrer" class="pill-link">Instagram</a>
+              <a href="https://www.youtube.com/@ChrisMichael-artist" target="_blank" rel="noreferrer" class="pill-link">YouTube</a>
+              <a href="#contact" class="pill-link">Contact</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ACTING -->
+    <section id="acting">
+      <div class="section-header">
+        <div class="section-eyebrow">Acting</div>
+        <div class="section-title">Recent work &amp; reels</div>
+      </div>
+
+      <div class="acting-layout">
+        <div class="video-card">
+          <header>
+            <h3>Featured Reels</h3>
+            <span style="font-size:0.8rem;color:var(--text-muted);">YouTube</span>
+          </header>
+
+          <div class="video-wrapper">
+            <iframe 
+              id="youtubePlayer"
+              src="https://www.youtube.com/embed/YsgUVMoqjr8" 
+              title="Chris Michael Acting Reel"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <div class="video-thumbs">
+            <button class="video-thumb active" data-video="YsgUVMoqjr8">
+              <span>Acting Reel #1</span>
+              <small>Featured dramatic reel</small>
+            </button>
+            <button class="video-thumb" data-video="7LKbloYo4RA">
+              <span>Acting Reel #2</span>
+              <small>Comedic reel</small>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <p class="acting-notes">
+            Here's a presentation of my work.  I believe acting is telling the truth and wearing your heart on your sleeve. But as a craft I always wanna keep improving,pushing limits in my own lane. Check out my youtube for a quick and easy access to more of my acting.
+          </p>
+
+          <div class="acting-links">
+            <a href="https://www.youtube.com/@ChrisMichael-artist" target="_blank" rel="noreferrer">
+              <span class="acting-dot"></span>
+              Watch my full YouTube channel
+            </a>
+            <a href="https://www.backstage.com/u/chris-michael-2/" target="_blank" rel="noreferrer">
+              <span class="acting-dot"></span>
+              View my Backstage profile
+            </a>
+            <a href="#contact">
+              <span class="acting-dot"></span>
+              Bookings &amp; audition inquiries
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writing">
+      <div class="section-header">
+        <div class="section-eyebrow">Writing</div>
+        <div class="section-title">Plays &amp; upcoming projects</div>
+      </div>
+
+      <div class="writing-grid">
+        <article class="writing-card">
+          <h3>Short Play — "Promises"</h3>
+          <p>
+            My first presented writing work. "Promises" was showcased at the Half Moon Production short play festival in June 2025. A meaningful milestone in my journey as a writer.
+          </p>
+          <div class="writing-meta">
+            ● Festival presentation • June 2025<br />
+            Half Moon Production
+          </div>
+        </article>
+
+        <article class="writing-card">
+          <h3>Upcoming Project</h3>
+          <p>
+            A one-act play currently in development, targeted for mid-to-late 2026. Exploring themes that matter to me through honest, character-driven storytelling.
+          </p>
+          <div class="writing-meta">
+            ● In development • Expected 2026
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="section-header">
+        <div class="section-eyebrow">Gallery</div>
+        <div class="section-title">Production stills &amp; moments</div>
+      </div>
+
+      <div class="gallery-grid">
+        <!-- Video: Meet the Cast -->
+        <div class="gallery-item gallery-video">
+          <iframe 
+            src="https://www.youtube.com/embed/YsgUVMoqjr8" 
+            title="Meet the Cast - Chris Michael"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        
+        <div class="gallery-item" data-gallery>
+          <img src="Chris-2.jpg" alt="Chris Michael reading a newspaper on a park bench" />
+        </div>
+        <div class="gallery-item" data-gallery>
+          <img src="Chris-3.jpg" alt="Chris Michael performing with arms outstretched in the woods" />
+        </div>
+        <div class="gallery-item" data-gallery>
+          <img src="Chris-4.jpg" alt="Chris Michael seated with a book looking out thoughtfully" />
+        </div>
+        <div class="gallery-item" data-gallery>
+          <img src="Chris-6.jpg" alt="Chris Michael smiling by a graffiti-covered pillar" />
+        </div>
+        <div class="gallery-item" data-gallery>
+          <img src="Chris-7.jpg" alt="Chris Michael dramatic headshot" />
+        </div>
+        <div class="gallery-item" data-gallery>
+          <img src="headshots 6.jpg" alt="Chris Michael smiling headshot close-up" />
+        </div>
+        <div class="gallery-item" data-gallery>
+          <img src="chris-smiling-blue-shirt.jpg" alt="Chris Michael professional headshot" />
+        </div>
+      </div>
+    </section>
+
+    <!-- HEADSHOT / RESUME -->
+    <section id="resume">
+      <div class="section-header">
+        <div class="section-title">Headshot &amp; Resume</div>
+      </div>
+
+      <div class="resume-layout">
+        <div class="headshot">
+          <img src="headshots 2025 3.jpg" alt="Chris Michael professional headshot" />
+        </div>
+        <div class="resume-panel">
+          <strong>Selected credits</strong>
+          <ul>
+            <li><strong>Waiting For Lefty</strong> — Joe Mitchell — Reading Playhouse (Theatre)</li>
+            <li><strong>Skyline Returns</strong> — Man — Richard Thomas Henle (Theatre)</li>
+            <li><strong>Witches Brew</strong> — Alexander — Joseph Cobb (Theatre)</li>
+            <li><strong>A State of Mind</strong> — Nick — Joseph Cobb (Theatre)</li>
+            <li><strong>Lend Me A Soprano</strong> — Jerry — Wylie Alberta Thompson (Theatre)</li>
+            <li><strong>Je Cherche un Feeling</strong> — Lead — Omar J. Garcia (Film)</li>
+            <li><strong>Lexus Spec Commercial</strong> — Man — Culture Vision Media (Commercial)</li>
+          </ul>
+
+          <strong style="display:block;margin-top:12px;">Training</strong>
+          <ul>
+            <li>2-Year Meisner Program — James Brill, Neighborhood Playhouse / Private</li>
+            <li>On Camera — Rita Liton, New York City</li>
+            <li>Scene Study (Ongoing) — James Brill, New York City</li>
+          </ul>
+
+          <strong style="display:block;margin-top:12px;">Special skills</strong>
+          <ul>
+            <li>
+              Spanish speaker; Guitarist; Drummer; Singing (Baritone); Martial artist (Boxing,
+              Kickboxing, Grappling, Jiu-Jitsu, Wrestling); Runner; Cyclist; Skateboarder;
+              Soccer; Basketball; Licensed driver.
+            </li>
+          </ul>
+
+          <!-- Resume PDF -->
+          <a href="Chris_Michael_Resume_2025_.pdf" class="btn-primary" target="_blank" rel="noreferrer">
+            Download full résumé (PDF)
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINKS -->
+    <section id="links">
+      <div class="section-header">
+        <div class="section-eyebrow">Links</div>
+        <div class="section-title">Where to find me online</div>
+      </div>
+
+      <ul class="links-list">
+        <li>
+          <span>YouTube — acting reels &amp; shorts</span>
+          <a href="https://www.youtube.com/@ChrisMichael-artist" target="_blank" rel="noreferrer">Open</a>
+        </li>
+        <li>
+          <span>Instagram — behind the scenes</span>
+          <a href="https://www.instagram.com/chrismikemorale" target="_blank" rel="noreferrer">Open</a>
+        </li>
+        <li>
+          <span>Backstage — casting profile</span>
+          <a href="https://www.backstage.com/u/chris-michael-2/" target="_blank" rel="noreferrer">Open</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-header">
+        <div class="section-eyebrow">Contact</div>
+        <div class="section-title">Let's connect</div>
+      </div>
+
+      <div class="contact-layout">
+        <div>
+          <p class="contact-note">
+            For bookings, auditions, or just to say hi, use the form.
+            Messages go directly to my inbox (or to my agent if you prefer).
+            Please include project details, dates, and where you are based.
+          </p>
+          <p class="contact-note" style="margin-top:12px;">
+            You can also email me directly at
+            <a href="mailto:chrismichaelarts@gmail.com">chrismichaelarts@gmail.com</a>.
+          </p>
+        </div>
+
+        <form>
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" type="text" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@email.com" />
+            </div>
+            <div class="field">
+              <label for="phone">Cell phone</label>
+              <input id="phone" type="tel" placeholder="Optional" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:8px;">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell me about the project or leave a note."></textarea>
+          </div>
+
+          <div class="form-footer">
+            <button class="btn-primary" type="submit">
+              Send message
+            </button>
+            <span>I usually reply within 1–2 business days.</span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Mobile menu
+    const hamburger = document.getElementById("hamburger");
+    const mobileNav = document.getElementById("mobileNav");
+    const mobileClose = document.getElementById("mobileClose");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
+
+    hamburger.addEventListener("click", () => {
+      mobileNav.classList.add("open");
+    });
+
+    mobileClose.addEventListener("click", () => {
+      mobileNav.classList.remove("open");
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        mobileNav.classList.remove("open");
+      });
+    });
+
+    // YouTube video thumbnail switching
+    const youtubePlayer = document.getElementById("youtubePlayer");
+    const thumbs = document.querySelectorAll(".video-thumb");
+
+    thumbs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const videoId = btn.getAttribute("data-video");
+        if (!videoId) return;
+
+        // Update active state
+        thumbs.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        // Update YouTube embed
+        youtubePlayer.src = `https://www.youtube.com/embed/${videoId}`;
+      });
+    });
+
+    // Lightbox functionality
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxClose = document.getElementById("lightboxClose");
+    const lightboxPrev = document.getElementById("lightboxPrev");
+    const lightboxNext = document.getElementById("lightboxNext");
+    const galleryItems = document.querySelectorAll(".gallery-item[data-gallery]");
+    
+    let currentIndex = 0;
+    const galleryImages = [];
+
+    // Collect all gallery images
+    galleryItems.forEach((item, index) => {
+      const img = item.querySelector("img");
+      if (img) {
+        galleryImages.push(img.src);
+        item.addEventListener("click", () => {
+          currentIndex = index;
+          openLightbox(img.src);
+        });
+      }
+    });
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentIndex];
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentIndex];
+    }
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightboxPrev.addEventListener("click", showPrev);
+    lightboxNext.addEventListener("click", showNext);
+
+    // Close on background click
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("open")) return;
+      
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    });
+  </script>
+</body>
+</html>
